@@ -9,6 +9,6 @@ namespace CustomerProject.Entities
         public string Email { get; set; }
         public List<string> Notes { get; set; }
         public decimal? TotalPurchasesAmount { get; set; }
-
     }
+
 }
