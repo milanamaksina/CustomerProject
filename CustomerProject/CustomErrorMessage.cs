@@ -8,6 +8,8 @@
         public const string PostalCodeIsRequared = "PostalCode is requared";
         public const string StateIsRequared = "State is requared";
         public const string CountryIsRequared = "Country is requared";
+        public const string InvalidCountryName = "Invalid Country Name";
+        public const string AddressTypeIsNotEnum = "AddressType is not enum";
 
         public const string AddressLineLenghtException = "AddressLine lenght is more than 100 symbols";
         public const string AddressLine2LenghtException = "AddressLine2 lenght is more than 100 symbols";
