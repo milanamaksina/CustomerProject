@@ -7,99 +7,62 @@ namespace CustomerProject.Tests
 {
     public class CustomerTests
     {
-        private CustomerValidator _customerValidator = new CustomerValidator();
-        private AddressValidator _addressValidator = new AddressValidator();
+        [Fact]
+        public void ShouldBeAbleToCreateAddress()
+        {
+            Address address = new Address("Pearl street","", AddressType.Billing, "New-York", "676565", "New-York", "United States");
+            Assert.NotNull(address);
 
+            Assert.Equal("Pearl street", address.AddressLine);
+            Assert.Equal(AddressType.Billing, address.AddressType);
+            Assert.Equal("New-York", address.City);
+            Assert.Equal("676565", address.PostalCode);
+            Assert.Equal("New-York", address.State);
+            Assert.Equal("United States", address.Country);
+        }
 
         [Fact]
         public void ShouldBeAbleToCreateCustomer()
         {
-            List<Address> customerAddresses = new List<Address>();
-            Address address = new Address("Pearl Street", "23/12", AddressType.Shipping, "New-York", "234213", "New-York", "USA");
-            customerAddresses.Add(address);
-            List<string> testNotes = new List<string>();
-            testNotes.Add("note");
+            Address address = new Address("Pearl street", "", AddressType.Billing, "New-York", "676565", "New-York", "United States");
 
-            Customer actualCustomer = new Customer()
+            Customer customer = new Customer()
             {
-                FirstName = "Alex",
-                LastName = "Smith",
-                Addresses = customerAddresses,
-                PhoneNumber = "+195534912",
-                Email = "alex@gmail.com",
-                Notes = testNotes, 
-                TotalPurchasesAmount = 1
-            };
-
-            Assert.Equal("Alex", actualCustomer.FirstName);
-            Assert.Equal("Smith", actualCustomer.LastName);
-            Assert.Equal(customerAddresses, actualCustomer.Addresses);
-            Assert.Equal("+195534912", actualCustomer.PhoneNumber);
-            Assert.Equal("alex@gmail.com", actualCustomer.Email);
-            Assert.Equal(testNotes, actualCustomer.Notes);
-            Assert.Equal(1, actualCustomer.TotalPurchasesAmount);
-        }
-
-        [Fact]
-        public void WhenAddressModelIsNotCorrect_ShouldThrowExceptions()
-        {
-            List<Address> customerAddresses = new List<Address>();
-            Address address = new Address("", "", AddressType.Shipping, "", "", "89236723262732", "France");
-
-            var result = _addressValidator.TestValidate(address);
-            result.ShouldHaveValidationErrorFor(x => x.AddressLine);
-            result.ShouldHaveValidationErrorFor(x => x.AddressLine);
-            result.ShouldHaveValidationErrorFor(x => x.City);
-            result.ShouldHaveValidationErrorFor(x => x.PostalCode);
-            result.ShouldHaveValidationErrorFor(x => x.Country);
-        }
-
-        [Fact]
-        public void TotalPurchasesAmountCanBeNull()
-        {
-            List<Address> customerAddresses = new List<Address>();
-            Address address = new Address("Pearl Street", "23/12", AddressType.Shipping, "New-York", "234213", "New-York", "USA");
-            customerAddresses.Add(address);
-            List<string> testNotes = new List<string>();
-            testNotes.Add("note");
-
-            Customer actualCustomer = new Customer()
-            {
-                FirstName = "Alex",
-                LastName = "Smith",
-                Addresses = customerAddresses,
-                PhoneNumber = "+195534912",
-                Email = "alex@gmail.com",
-                Notes = testNotes,
+                FirstName = "anton",
+                LastName = "ptushkin",
+                Addresses = new List<Address> { address },
+                PhoneNumber = "+150878682",
+                Email = "anton@gmail.com",
+                Notes = new List<string> { "note1" },
                 TotalPurchasesAmount = 0
             };
 
-            Assert.Equal(0, actualCustomer.TotalPurchasesAmount);
+
+            Assert.Equal("anton", customer.FirstName);
+            Assert.Equal("ptushkin", customer.LastName);
+            Assert.Equal(1, customer.Addresses.Count);
+            Assert.Equal("+150878682", customer.PhoneNumber);
+            Assert.Equal(1, customer.Notes.Count);
+            Assert.Equal(0, customer.TotalPurchasesAmount);
+
         }
 
         [Fact]
-        public void WhenCustomerModelIsNotCorrect_ShouldThrowExceptions()
+        public void WhenCustomerAddressIsWrong_ShouldThrowException()
         {
-            Customer actualCustomer = new Customer()
-            {
-                FirstName = "Alex",
-                LastName = "",
-                Addresses = new List<Address>(),
-                PhoneNumber = "+19",
-                Email = "alexcom",
-                Notes = new List<string>(),
-                TotalPurchasesAmount = 0
-            };
+            string test = "123456789012345678901234567890123456789012345678901234567890";
 
-            var result = _customerValidator.TestValidate(actualCustomer);
-            result.ShouldHaveValidationErrorFor(x => x.LastName);
-            result.ShouldHaveValidationErrorFor(x => x.Addresses);
-            result.ShouldHaveValidationErrorFor(x => x.PhoneNumber);
-            result.ShouldHaveValidationErrorFor(x => x.Email);
-            result.ShouldHaveValidationErrorFor(x => x.Notes);
+            Address address = new Address("", "", AddressType.Billing, test, "676565897827238", test, "USA" );
+            var result = AddressValidator.Validate(address);
+
+            Assert.Equal(CustomErrorMessage.AddressLineIsRequared, result[0]);
+            Assert.Equal(CustomErrorMessage.CityLenghtException, result[1]);
+            Assert.Equal(CustomErrorMessage.PostalCodeLenghtException, result[2]);
+            Assert.Equal(CustomErrorMessage.StateLenghtException, result[3]);
+            Assert.Equal(CustomErrorMessage.InvalidCountryName, result[4]);
+
+
         }
-
-
 
 
     }
