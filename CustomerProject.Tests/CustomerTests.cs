@@ -60,10 +60,31 @@ namespace CustomerProject.Tests
             Assert.Equal(CustomErrorMessage.PostalCodeLenghtException, result[2]);
             Assert.Equal(CustomErrorMessage.StateLenghtException, result[3]);
             Assert.Equal(CustomErrorMessage.InvalidCountryName, result[4]);
-
-
         }
 
+        [Fact]
+        public void WhenCustomerModelIsWrong_ShouldThrowException()
+        {
+            string test = "123456789012345678901234567890123456789012345678901234567890";
+
+            Customer customer = new Customer()
+            {
+                FirstName = test,
+                LastName = test,
+                Addresses = new List<Address>(),
+                PhoneNumber = "+150878682",
+                Email = "anton",
+                Notes = new List<string> { "note1" },
+                TotalPurchasesAmount = 0
+            };
+            var result = CustomerValidator.Validate(customer);
+
+            Assert.Equal(CustomErrorMessage.FirstNameLenghtException, result[0]);
+            Assert.Equal(CustomErrorMessage.LastNameLenghtException, result[1]);
+            Assert.Equal(CustomErrorMessage.AddressesIsRequared, result[2]);
+            Assert.Equal(CustomErrorMessage.EmailInvalidFormat, result[3]);
+
+        }
 
     }
 }
