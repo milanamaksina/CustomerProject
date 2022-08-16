@@ -82,7 +82,7 @@ namespace CustomerProject.Tests
         {
             Customer actualCustomer = new Customer()
             {
-                FirstName = "Alex",
+                FirstName = "Alexxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
                 LastName = "",
                 Addresses = new List<Address>(),
                 PhoneNumber = "+19",
@@ -92,11 +92,24 @@ namespace CustomerProject.Tests
             };
 
             var result = _customerValidator.TestValidate(actualCustomer);
+            result.ShouldHaveValidationErrorFor(x => x.FirstName);
             result.ShouldHaveValidationErrorFor(x => x.LastName);
             result.ShouldHaveValidationErrorFor(x => x.Addresses);
             result.ShouldHaveValidationErrorFor(x => x.PhoneNumber);
             result.ShouldHaveValidationErrorFor(x => x.Email);
             result.ShouldHaveValidationErrorFor(x => x.Notes);
+        }
+        
+        [Theory]
+        [InlineData("unated stetes")]
+        [InlineData("france")]
+        [InlineData("5496040-2")]
+        public void WhenCountryIsWrong_ShouldThrowException(string country)
+        {
+            Address address = new Address("Pearl Street", "23/12", AddressType.Shipping, "New-York", "234213", "New-York", country);
+
+            var result = _addressValidator.TestValidate(address);
+            result.ShouldHaveValidationErrorFor(x => x.Country);
         }
 
 

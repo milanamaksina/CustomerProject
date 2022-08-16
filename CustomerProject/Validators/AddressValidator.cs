@@ -10,7 +10,7 @@ namespace CustomerProject.Validators
     {
         public AddressValidator()
         {
-            var availableCountries = new List<string> {"USA", "Canada"};
+            var availableCountries = new List<string> {"USA", "Canada", "canada", "United States", "united states", "usa"};
             RuleFor(a => a.AddressLine)
                .NotEmpty().WithMessage(CustomErrorMessage.AddressLineIsRequared)
                .MaximumLength(100).WithMessage(CustomErrorMessage.AddressLineLenghtException);
