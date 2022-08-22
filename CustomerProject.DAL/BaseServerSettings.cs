@@ -6,7 +6,7 @@ namespace CustomerProject.DAL
     {
         public SqlConnection GetConnection()
         {
-            return new SqlConnection("Data Source=.//sql2019;Initial Catalog = CustomerLib_Maksina.db;Persist Security Info=True;");
+            return new SqlConnection(@"Server=DESKTOP-NDUG8BN;Database=CustomerLib_Maksina.db;Trusted_Connection=True;");
         }
     }
 }

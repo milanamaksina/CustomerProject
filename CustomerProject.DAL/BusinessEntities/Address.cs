@@ -1,10 +1,12 @@
-﻿namespace CustomerProject.DAL.BusinessEntities
+﻿using static CustomerProject.DAL.Enums;
+
+namespace CustomerProject.DAL.BusinessEntities
 {
     public class Address
     {
         public string AddressLine { get; set; }
         public string AddressLine2 { get; set; }
-        //public AddressType AddressType { get; set; }
+        public AddressType AddressType { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
         public string State { get; set; }
