@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 
 namespace CustomerProject.DAL.Repositories
 {
-    public class AddressRepository : BaseServerSettings, IRepository<Address>
+    public class AddressRepository : BaseServerSettings/*, IRepository<Address>*/
     {
         public void Create(Address entity)
         {
@@ -34,11 +34,11 @@ namespace CustomerProject.DAL.Repositories
             {
                 Value = entity.PostalCode
             };
-            var addressState = new SqlParameter("@State", System.Data.SqlDbType.NVarChar, 20)
+            var addressStates = new SqlParameter("@State", System.Data.SqlDbType.NVarChar, 20)
             {
                 Value = entity.State
             };
-            var addressCountry = new SqlParameter("@State", System.Data.SqlDbType.NVarChar, 14)
+            var addressCountry = new SqlParameter("@Country", System.Data.SqlDbType.NVarChar, 14)
             {
                 Value = entity.Country
             };
@@ -47,7 +47,7 @@ namespace CustomerProject.DAL.Repositories
             command.Parameters.Add(addressAddressType);
             command.Parameters.Add(addressCity);
             command.Parameters.Add(addressPostalCode);
-            command.Parameters.Add(addressState);
+            command.Parameters.Add(addressStates);
             command.Parameters.Add(addressCountry);
             command.ExecuteNonQuery();
         }

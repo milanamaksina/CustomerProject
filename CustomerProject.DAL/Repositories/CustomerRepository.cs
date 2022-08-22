@@ -1,4 +1,5 @@
 ﻿using CustomerProject.DAL.BusinessEntities;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace CustomerProject.DAL.Repositories
@@ -44,7 +45,6 @@ namespace CustomerProject.DAL.Repositories
             command.Parameters.Add(customerEmailParam);
             command.Parameters.Add(customerNotesParam);
             command.Parameters.Add(customerTotalPurchasesAmountParam);
-            command.ExecuteNonQuery();
         }
 
         public void Delete(Customer entity)
@@ -70,19 +70,22 @@ namespace CustomerProject.DAL.Repositories
                 Value = entity.Id
             };
             command.Parameters.Add(customerId);
-            using var reader = command.ExecuteReader();
-            if (reader.HasRows)
+            using (var reader = command.ExecuteReader())
             {
-                return new Customer
+                while (reader.Read())
                 {
-                    FirstName = reader["FirstName"].ToString(),
-                    LastName = reader["LastName"].ToString(),
-                    PhoneNumber = reader["PhoneNumber"].ToString(),
-                    Email = reader["Email"].ToString(),
-                    Notes = reader["Notes"].ToString()
-                };
+                    return new Customer()
+                    {
+                        Id = (Int32)reader["CustomerId"],
+                        FirstName = reader["FirstName"]?.ToString(),
+                        LastName = reader["LastName"]?.ToString(),
+                        PhoneNumber = reader["CustomerPhoneNumber"]?.ToString(),
+                        Email = reader["CustomerEmail"]?.ToString(),
+                        Notes = reader["Notes"]?.ToString(),
+                        TotalPurchasesAmount = (decimal)reader["TotalPurchaseAmount"]
+                    };
+                }
             }
-            reader.Close();
             return null;
         }
 
@@ -102,6 +105,17 @@ namespace CustomerProject.DAL.Repositories
             command.Parameters.Add(customerId);
             command.Parameters.Add(customerFirstNameParam);
             command.ExecuteNonQuery();
+        }
+
+        public void DeleteAll()
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                var command = new SqlCommand("DELETE FROM [Customers]", connection);
+
+                command.ExecuteNonQuery();
+            }
         }
     }
 }

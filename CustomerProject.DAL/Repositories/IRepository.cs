@@ -6,5 +6,6 @@
         public TEntity Read(TEntity entity);
         public void Update(TEntity entity);
         public void Delete(TEntity entity);
+
     }
 }
