@@ -7,12 +7,12 @@ namespace CustomerWebForm
     public partial class CustomerDelete : System.Web.UI.Page
     {
         
-        private IRepository<Customer> _customerRepository;
+        private IRepository<Customers> _customerRepository;
         public CustomerDelete()
         {
             _customerRepository = new CustomerRepository();
         }
-        public CustomerDelete(IRepository<Customer> customerRepository)
+        public CustomerDelete(IRepository<Customers> customerRepository)
         {
             _customerRepository = customerRepository;
         }

@@ -4,9 +4,9 @@ using System.Data.SqlClient;
 
 namespace CustomerProject.DAL.Repositories
 {
-    public class CustomerRepository : BaseServerSettings, IRepository<Customer>
+    public class CustomerRepository : BaseServerSettings, IRepository<Customers>
     {
-        public void Create(Customer entity)
+        public void Create(Customers entity)
         {
             using (var connection = GetConnection())
             {
@@ -55,7 +55,7 @@ namespace CustomerProject.DAL.Repositories
             using (var connection = GetConnection())
             {
                 connection.Open();
-                var command = new SqlCommand("DELETE FROM [Customer] WHERE CustomerId = @CustomerId", connection);
+                var command = new SqlCommand("DELETE FROM [Customers] WHERE CustomerId = @CustomerId", connection);
                 var customerIDParam = new SqlParameter("@CustomerId", SqlDbType.Int)
                 {
                     Value = entityId
@@ -65,7 +65,7 @@ namespace CustomerProject.DAL.Repositories
             }
         }
 
-        public Customer Read(int entity)
+        public Customers Read(int entity)
         {
             using (var connection = GetConnection())
             {
@@ -80,7 +80,7 @@ namespace CustomerProject.DAL.Repositories
                 {
                     while (reader.Read())
                     {
-                        return new Customer()
+                        return new Customers()
                         {
                             Id = (Int32)reader["CustomerId"],
                             FirstName = reader["FirstName"]?.ToString(),
@@ -97,7 +97,7 @@ namespace CustomerProject.DAL.Repositories
 
         }
 
-        public void Update(Customer entity)
+        public void Update(Customers entity)
         {
             using (var connection = GetConnection())
             {
@@ -129,7 +129,7 @@ namespace CustomerProject.DAL.Repositories
             }
         }
 
-        public List<Customer> GetAll()
+        public List<Customers> GetAll()
         {
             throw new NotImplementedException();
         }

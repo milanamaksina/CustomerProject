@@ -117,6 +117,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="CustomerDelete.aspx" />
+    <Content Include="CustomerDeleteAll.aspx" />
+    <Content Include="CustomerEdit.aspx" />
+    <Content Include="CustomerGetAll.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -215,6 +218,27 @@
     </Compile>
     <Compile Include="CustomerDelete.aspx.designer.cs">
       <DependentUpon>CustomerDelete.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerDeleteAll.aspx.cs">
+      <DependentUpon>CustomerDeleteAll.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomerDeleteAll.aspx.designer.cs">
+      <DependentUpon>CustomerDeleteAll.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerEdit.aspx.cs">
+      <DependentUpon>CustomerEdit.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomerEdit.aspx.designer.cs">
+      <DependentUpon>CustomerEdit.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CustomerGetAll.aspx.cs">
+      <DependentUpon>CustomerGetAll.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomerGetAll.aspx.designer.cs">
+      <DependentUpon>CustomerGetAll.aspx</DependentUpon>
     </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
