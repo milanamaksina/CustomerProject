@@ -1,9 +1,10 @@
 ﻿using CustomerProject.DAL.BusinessEntities;
+using System.Data;
 using System.Data.SqlClient;
 
 namespace CustomerProject.DAL.Repositories
 {
-    public class AddressRepository : BaseServerSettings/*, IRepository<Address>*/
+    public class AddressRepository : BaseServerSettings, IRepository<Address>
     {
         public void Create(Address entity)
         {
@@ -52,26 +53,25 @@ namespace CustomerProject.DAL.Repositories
                 command.Parameters.Add(addressCountry);
                 command.ExecuteNonQuery();
             }
-                
+
         }
 
-        public void Delete(Address entity)
+        public void Delete(int entityId)
         {
             using (var connection = GetConnection())
             {
                 connection.Open();
-                var command = new SqlCommand("DELETE FROM [Addresses] WHERE AddressId = @AddressId", connection);
-                var addressId = new SqlParameter("@AddressId", System.Data.SqlDbType.Int)
+                var command = new SqlCommand("DELETE FROM [Customer] WHERE CustomerId = @CustomerId", connection);
+                var customerIDParam = new SqlParameter("@CustomerID", SqlDbType.Int)
                 {
-                    Value = entity.AddressId
+                    Value = entityId
                 };
-                command.Parameters.Add(addressId);
+                command.Parameters.Add(customerIDParam);
                 command.ExecuteNonQuery();
             }
-            
         }
 
-        public Address Read(Address entity)
+        public Address Read(int entityId)
         {
             using (var connection = GetConnection())
             {
@@ -79,7 +79,7 @@ namespace CustomerProject.DAL.Repositories
                 var command = new SqlCommand("SELECT * FROM [Customers] WHERE AddressId = @AddressId", connection);
                 var customerId = new SqlParameter("@AddressId", System.Data.SqlDbType.Int)
                 {
-                    Value = entity.AddressId
+                    Value = entityId
                 };
                 command.Parameters.Add(customerId);
                 using (var reader = command.ExecuteReader())
@@ -123,7 +123,47 @@ namespace CustomerProject.DAL.Repositories
                 command.Parameters.Add(customerLine);
                 command.ExecuteNonQuery();
             }
-            
+
+        }
+
+        public void DeleteAll()
+        {
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                var command = new SqlCommand(
+                    "DELETE FROM Addresses",
+                    connection);
+                command.ExecuteNonQuery();
+            }
+        }
+
+        public List<Address> GetAll()
+        {
+            List<Address> addresses = new List<Address>();
+            using (var connection = GetConnection())
+            {
+                connection.Open();
+                var command = new SqlCommand("SELECT * FROM Addresses", connection);
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        addresses.Add(new Address
+                        {
+                            AddressId = Convert.ToInt32(reader["AddressId"]),
+                            AddressLine = reader["Line"].ToString(),
+                            AddressLine2 = reader["Line2"].ToString(),
+                            AddressType = reader["AddressType"].ToString(),
+                            City = reader["City"].ToString(),
+                            PostalCode = reader["PostalCode"].ToString(),
+                            State = reader["StateName"].ToString(),
+                            Country = reader["Country"].ToString()
+                        });
+                    }
+                }
+                return addresses;
+            }
         }
     }
 }

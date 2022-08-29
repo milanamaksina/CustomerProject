@@ -50,23 +50,22 @@ namespace CustomerProject.DAL.Repositories
             
         }
 
-        public void Delete(Customer entity)
+        public void Delete(int entityId)
         {
             using (var connection = GetConnection())
             {
                 connection.Open();
-                var command = new SqlCommand("DELETE FROM [Customers] WHERE CustomerId = @CustomerId", connection);
-                var customerId = new SqlParameter("@CustomerId", System.Data.SqlDbType.Int)
+                var command = new SqlCommand("DELETE FROM [Customer] WHERE CustomerId = @CustomerId", connection);
+                var customerIDParam = new SqlParameter("@CustomerId", SqlDbType.Int)
                 {
-                    Value = entity.Id
+                    Value = entityId
                 };
-                command.Parameters.Add(customerId);
+                command.Parameters.Add(customerIDParam);
                 command.ExecuteNonQuery();
             }
-            
         }
 
-        public Customer Read(Customer entity)
+        public Customer Read(int entity)
         {
             using (var connection = GetConnection())
             {
@@ -74,7 +73,7 @@ namespace CustomerProject.DAL.Repositories
                 var command = new SqlCommand("SELECT * FROM [Customers] WHERE CustomerId = @CustomerId", connection);
                 var customerId = new SqlParameter("@CustomerId", System.Data.SqlDbType.Int)
                 {
-                    Value = entity.Id
+                    Value = entity
                 };
                 command.Parameters.Add(customerId);
                 using (var reader = command.ExecuteReader())
@@ -128,6 +127,11 @@ namespace CustomerProject.DAL.Repositories
 
                 command.ExecuteNonQuery();
             }
+        }
+
+        public List<Customer> GetAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -3,9 +3,11 @@
     public interface IRepository<TEntity>
     {
         void Create(TEntity entity);
-        public TEntity Read(TEntity entity);
-        public void Update(TEntity entity);
-        public void Delete(TEntity entity);
+        TEntity Read(int entity);
+        void Update(TEntity entity);
+        void Delete(int entityId);
+        void DeleteAll();
+        List<TEntity> GetAll();
 
     }
 }

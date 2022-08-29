@@ -1,6 +1,4 @@
-﻿using CustomerProject.Validators;
-using System.ComponentModel.DataAnnotations;
-
+﻿
 
 namespace CustomerProject.Entities
 {

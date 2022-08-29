@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace CustomerProject.Entities
 {
     public class Customer: Person
